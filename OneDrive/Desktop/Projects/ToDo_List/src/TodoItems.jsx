@@ -1,6 +1,12 @@
 import React, { useState } from 'react'
 
-function TodoItems({ value, index, tasksNumber, tasks, settasks, changeMode }) {
+function TodoItems({ 
+  value, 
+  index, 
+  tasksNumber, 
+  tasks, 
+  settasks, 
+  changeMode }) {
 
   const handleDelete = () => {
 
@@ -8,9 +14,9 @@ function TodoItems({ value, index, tasksNumber, tasks, settasks, changeMode }) {
     settasks(finalData)
   }
 
-  const [light, setLight] = useState(false)
+  const [isComplete, setIsComplete] = useState(false)
   const statusCheck = () => {
-    setLight(!light)
+    setIsComplete(!isComplete)
   }
 
   const [editMode, setEditMode] = useState(false)
@@ -47,24 +53,37 @@ function TodoItems({ value, index, tasksNumber, tasks, settasks, changeMode }) {
         ) : (
           <span
             onClick={statusCheck}
-            className={`text-lg font-medium cursor-pointer ${light
-              ? 'line-through'
-              : changeMode
-              ? "text-white"
-              : "bg-black"
+            className={`text-lg font-medium cursor-pointer ${isComplete
+              ? 'line-through bg-green-200 text-black' : ""
              }`}
           >{tasksNumber + 1}. {value}
           </span>
         )}
 
-        {/* edit button */}
         <div className="flex items-center space-x-2">
+          {/* Complete or pending status button */}
+          <button 
+          onClick={statusCheck}
+          className={` p-2 w-10 h10 rounded flex items-center justify-center ${changeMode
+            ? "bg-gray-700 text-white"
+            : "bg-[#0A2647] text-white"
+          }`} ><i className={`fa-solid ${isComplete ? "fa-toggle-on": "fa-toggle-off"}` }></i> 
+          </button>
+          {/* printing completed or pending with icon */}
+        {/* edit button */}
+          <span className={`text-sm ${isComplete
+          ? 'text-green-500'
+          :"text-red-500"}`}>
+            {isComplete? "Completed🎉": "Pending⏳"}
+          </span>
+
           <button
             onClick={handleEdit}
             className={`p-2 w-10 h-10 rounded flex items-center justify-center hover:bg-yellow-500 ${changeMode
               ? "bg-gray-700 text-white"
               : "bg-[#0A2647] text-white " }`} 
-          ><i className="fa-solid fa-pen-to-square "></i> </button>
+          ><i className="fa-solid fa-pen-to-square "></i>
+           </button>
           
           {/* delete button */}
           <button
